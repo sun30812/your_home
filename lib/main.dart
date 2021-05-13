@@ -184,6 +184,21 @@ class _HomePageState extends State<HomePage> {
                         if (_controller.text == '/set') {
                           Navigator.of(context).push(
                               CupertinoPageRoute(builder: (_) => Settings()));
+                        } else if (_isDevMode) {
+                          if (_controller.text.startsWith('/dev:')) {
+                            if (_controller.text == '/dev:lists') {
+                              print(todoLists);
+                              print(doneLists);
+                            } else if (_controller.text == '/dev:clearAll') {
+                              setState(() {
+                                todoLists.clear();
+                                doneLists.clear();
+                              });
+                              print('All clear done!');
+                            } else {
+                              print('개발자용 명령어가 아닙니다.');
+                            }
+                          }
                         } else if (_controller.text.isNotEmpty) {
                           setState(() {
                             todoLists.add(_controller.text);
