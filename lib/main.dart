@@ -29,6 +29,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   bool _isSettingsAppear = false;
+
   List<BottomNavigationBarItem> bottomItems = [
     BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.home),
@@ -45,16 +46,16 @@ class _MainPageState extends State<MainPage> {
   ];
 
   List<BottomNavigationBarItem> tabBarItems(BuildContext context) {
-    if (_isSettingsAppear)
-      {
-        bottomItems.add(
-          BottomNavigationBarItem(
+    if (_isSettingsAppear) {
+      bottomItems.add(
+        BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.settings),
             activeIcon: Icon(
               CupertinoIcons.settings,
               color: smartColor(),
-            )),);
-      }
+            )),
+      );
+    }
 
     return bottomItems;
   }
@@ -109,20 +110,48 @@ class _HomePageState extends State<HomePage> {
   List<bool> doneLists = [];
   FocusNode focusNode = FocusNode();
   bool _isQuickDelete = false;
+  bool _isDevMode = false;
 
-  void getQuickDeleteBoolean() async {
+  void getSomeBoolean() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     _isQuickDelete = preferences.getBool('settings: 1') ?? false;
+    _isDevMode = preferences.getBool('settings: 2') ?? false;
+  }
+
+  void getListData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    for (var item in preferences.getStringList('doneList') ?? []) {
+      if (item == 't')
+        doneLists.add(true);
+      else if (item == 'f') doneLists.add(false);
+    }
+    todoLists = preferences.getStringList('todoList') ?? [];
+    setState(() {});
+  }
+
+  void setListData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> _doneList = [];
+    for (var item in doneLists) {
+      if (item == true)
+        _doneList.add('t');
+      else
+        _doneList.add('f');
+    }
+    await preferences.setStringList('doneList', _doneList);
+    await preferences.setStringList('todoList', todoLists);
   }
 
   @override
   void initState() {
     super.initState();
+    getListData();
   }
 
   @override
   Widget build(BuildContext context) {
-    getQuickDeleteBoolean();
+    getSomeBoolean();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text('남은 항목: ${todoLists.length}개'),
@@ -160,6 +189,7 @@ class _HomePageState extends State<HomePage> {
                             todoLists.add(_controller.text);
                             doneLists.add(false);
                           });
+                          setListData();
                         }
                         _controller.text = '';
                         focusNode.unfocus();
@@ -185,9 +215,12 @@ class _HomePageState extends State<HomePage> {
                                                 .check_mark_circled_solid
                                             : CupertinoIcons.check_mark_circled,
                                         color: CupertinoColors.black),
-                                    onPressed: () => setState(() {
-                                          doneLists[index] = !doneLists[index];
-                                        })),
+                                    onPressed: () {
+                                      setState(() {
+                                        doneLists[index] = !doneLists[index];
+                                      });
+                                      setListData();
+                                    }),
                                 SizedBox(
                                   width: 8.0,
                                 ),
@@ -234,6 +267,7 @@ class _HomePageState extends State<HomePage> {
                                                 onPressed: () {
                                                   todoLists.removeAt(index);
                                                   doneLists.removeAt(index);
+                                                  setListData();
                                                   Navigator.of(context).pop();
                                                 },
                                               )
@@ -243,6 +277,7 @@ class _HomePageState extends State<HomePage> {
                                       } else {
                                         todoLists.removeAt(index);
                                         doneLists.removeAt(index);
+                                        setListData();
                                       }
                                     }))
                           ],
