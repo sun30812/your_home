@@ -256,22 +256,29 @@ class _HomePageState extends State<HomePage> {
                         },
                         actions: [
                           CupertinoContextMenuAction(
+                              onPressed: () {
+                                todoLists.removeAt(index);
+                                doneLists.removeAt(index);
+                                setListData();
+                                Navigator.of(context).pop();
+                              },
                               child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  '해당 리스트 삭제',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: CupertinoColors.destructiveRed),
-                                ),
-                              ),
-                              Icon(
-                                CupertinoIcons.delete,
-                                color: CupertinoColors.destructiveRed,
-                              )
-                            ],
-                          ))
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '해당 리스트 삭제',
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          color:
+                                              CupertinoColors.destructiveRed),
+                                    ),
+                                  ),
+                                  Icon(
+                                    CupertinoIcons.delete,
+                                    color: CupertinoColors.destructiveRed,
+                                  )
+                                ],
+                              ))
                         ],
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
