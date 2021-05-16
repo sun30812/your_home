@@ -216,86 +216,147 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                     itemCount: todoLists.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                CupertinoButton(
-                                    child: Icon(
-                                        doneLists[index]
-                                            ? CupertinoIcons
-                                                .check_mark_circled_solid
-                                            : CupertinoIcons.check_mark_circled,
-                                        color: CupertinoColors.black),
-                                    onPressed: () {
-                                      setState(() {
-                                        doneLists[index] = !doneLists[index];
-                                      });
-                                      setListData();
-                                    }),
-                                SizedBox(
-                                  width: 8.0,
-                                ),
-                                Text(todoLists[index]),
-                              ],
+                      return CupertinoContextMenu(
+                        previewBuilder: (context, animation, child) {
+                          return Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: CupertinoColors.white),
+                            padding: EdgeInsets.all(8.0),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                          doneLists[index]
+                                              ? CupertinoIcons
+                                                  .check_mark_circled_solid
+                                              : CupertinoIcons
+                                                  .check_mark_circled,
+                                          color: CupertinoColors.black),
+                                      SizedBox(
+                                        width: 8.0,
+                                      ),
+                                      Text(todoLists[index]),
+                                    ],
+                                  ),
+                                  Icon(
+                                    CupertinoIcons.delete,
+                                    color: CupertinoColors.black,
+                                  )
+                                ],
+                              ),
                             ),
-                            CupertinoButton(
-                                child: Icon(
-                                  CupertinoIcons.delete,
-                                  color: CupertinoColors.black,
+                          );
+                        },
+                        actions: [
+                          CupertinoContextMenuAction(
+                              child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '해당 리스트 삭제',
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: CupertinoColors.destructiveRed),
                                 ),
-                                onPressed: () => setState(() {
-                                      if (!_isQuickDelete) {
-                                        showCupertinoDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              CupertinoAlertDialog(
-                                            title: Center(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    CupertinoIcons
-                                                        .exclamationmark_triangle,
-                                                    color:
-                                                        CupertinoColors.black,
-                                                  ),
-                                                  Text('삭제 경고')
-                                                ],
-                                              ),
-                                            ),
-                                            content:
-                                                Text('해당 목록을 삭제합니다 삭제하시겠습니까?'),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                child: Text('취소'),
-                                                isDefaultAction: true,
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
-                                              ),
-                                              CupertinoDialogAction(
-                                                child: Text('삭제'),
-                                                isDestructiveAction: true,
-                                                onPressed: () {
-                                                  todoLists.removeAt(index);
-                                                  doneLists.removeAt(index);
-                                                  setListData();
-                                                  Navigator.of(context).pop();
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      } else {
-                                        todoLists.removeAt(index);
-                                        doneLists.removeAt(index);
+                              ),
+                              Icon(
+                                CupertinoIcons.delete,
+                                color: CupertinoColors.destructiveRed,
+                              )
+                            ],
+                          ))
+                        ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  CupertinoButton(
+                                      child: Icon(
+                                          doneLists[index]
+                                              ? CupertinoIcons
+                                                  .check_mark_circled_solid
+                                              : CupertinoIcons
+                                                  .check_mark_circled,
+                                          color: CupertinoColors.black),
+                                      onPressed: () {
+                                        setState(() {
+                                          doneLists[index] = !doneLists[index];
+                                        });
                                         setListData();
-                                      }
-                                    }))
-                          ],
+                                      }),
+                                  SizedBox(
+                                    width: 8.0,
+                                  ),
+                                  Text(todoLists[index]),
+                                ],
+                              ),
+                              CupertinoButton(
+                                  child: Icon(
+                                    CupertinoIcons.delete,
+                                    color: CupertinoColors.black,
+                                  ),
+                                  onPressed: () => setState(() {
+                                        if (!_isQuickDelete) {
+                                          showCupertinoDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                CupertinoAlertDialog(
+                                              title: Center(
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      CupertinoIcons
+                                                          .exclamationmark_triangle,
+                                                      color:
+                                                          CupertinoColors.black,
+                                                    ),
+                                                    Text('삭제 경고')
+                                                  ],
+                                                ),
+                                              ),
+                                              content: Text(
+                                                  '해당 목록을 삭제합니다 삭제하시겠습니까?'),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  child: Text('취소'),
+                                                  isDefaultAction: true,
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(),
+                                                ),
+                                                CupertinoDialogAction(
+                                                  child: Text('삭제'),
+                                                  isDestructiveAction: true,
+                                                  onPressed: () {
+                                                    todoLists.removeAt(index);
+                                                    doneLists.removeAt(index);
+                                                    setListData();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          todoLists.removeAt(index);
+                                          doneLists.removeAt(index);
+                                          setListData();
+                                        }
+                                      }))
+                            ],
+                          ),
                         ),
                       );
                     }),
