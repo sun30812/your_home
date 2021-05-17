@@ -82,9 +82,11 @@ class _SettingsState extends State<Settings> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  data,
-                  style: CupertinoTheme.of(context).textTheme.textStyle,
+                Expanded(
+                  child: Text(
+                    data,
+                    style: CupertinoTheme.of(context).textTheme.textStyle,
+                  ),
                 ),
                 CupertinoSwitch(
                     value: _settingsData[index] ?? false,
