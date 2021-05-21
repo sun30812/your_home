@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'settings.dart';
+import 'memo.dart';
 
 const String APPNAME = 'Your Home';
 
@@ -373,31 +374,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-}
-
-class MemoPage extends StatefulWidget {
-  @override
-  _MemoPageState createState() => _MemoPageState();
-}
-
-class _MemoPageState extends State<MemoPage> {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text('메모장'),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '아직 이 기능은 개발되지 않았습니다!',
-                style: CupertinoTheme.of(context).textTheme.textStyle,
-              )
-            ],
-          ),
-        ));
   }
 }

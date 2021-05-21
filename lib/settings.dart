@@ -77,22 +77,28 @@ class _SettingsState extends State<Settings> {
       },
       child: ListBody(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    data,
-                    style: CupertinoTheme.of(context).textTheme.textStyle,
+          Container(
+            decoration: BoxDecoration(
+              border: BorderDirectional(bottom: BorderSide(color: CupertinoColors.systemGrey5)),
+              color: CupertinoColors.white
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      data,
+                      style: CupertinoTheme.of(context).textTheme.textStyle,
+                    ),
                   ),
-                ),
-                CupertinoSwitch(
-                    value: _settingsData[index] ?? false,
-                    onChanged: (value) =>
-                        switchClick(index, value, isRequiredRestart))
-              ],
+                  CupertinoSwitch(
+                      value: _settingsData[index] ?? false,
+                      onChanged: (value) =>
+                          switchClick(index, value, isRequiredRestart))
+                ],
+              ),
             ),
           )
         ],
@@ -106,11 +112,13 @@ class _SettingsState extends State<Settings> {
     getSettingsData(0);
     getSettingsData(1);
     getSettingsData(2);
+    getSettingsData(3);
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGrey6,
       navigationBar: CupertinoNavigationBar(
         middle: Text('설정'),
       ),
@@ -129,6 +137,12 @@ class _SettingsState extends State<Settings> {
               index: 2,
               data: '개발자 모드 활성화',
               infoData: '개발자용 명령어를 앱의 홈화면에서 사용할 수 있게 됩니다.(사용에 주의바람)'),
+          settingsItem(
+              index: 3,
+              data: '메인화면 문구 수정(현재 미지원)',
+              infoData: '앱의 메인화면에 표시되는 문구를 수정할 수 있습니다.',
+            isRequiredRestart: true
+          ),
         ],
       ),
     );
