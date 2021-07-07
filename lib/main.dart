@@ -209,7 +209,30 @@ class _HomePageState extends State<HomePage> {
                         }
                         _controller.text = '';
                         focusNode.unfocus();
-                      })
+                      }),
+                  CupertinoButton(
+                      child: Icon(
+                        CupertinoIcons.question_circle,
+                        color: CupertinoColors.black,
+                      ),
+                      onPressed: () {
+                        showCupertinoDialog(
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return CupertinoAlertDialog(
+                                title: Text('사용법 안내'),
+                                content: Text('/set -> 설정창 이동'),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: Text('확인'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              );
+                            });
+                      }),
                 ],
               ),
               Welcome(),
