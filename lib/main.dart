@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:your_home/new_memo.dart';
 import 'settings.dart';
 import 'memo.dart';
 
@@ -14,6 +15,9 @@ class App extends StatelessWidget {
       theme: CupertinoThemeData(brightness: Brightness.light),
       title: APPNAME,
       home: MainPage(),
+      routes: {
+        "/newMemo" : (context) => NewMemoPage(),
+      },
     );
   }
 }
